@@ -1,0 +1,10 @@
+.card {
+  min-width: 0;
+  max-width: 20rem;
+  box-shadow: none;
+  background: transparent;
+}
+
+.card-image {
+  height: max-content;
+}
