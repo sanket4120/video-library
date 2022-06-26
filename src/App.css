@@ -1,0 +1,33 @@
+:root {
+  --primary: #9ee973;
+  --font-color: #413f42;
+}
+
+* {
+  font-family: 'Nunito', sans-serif;
+}
+
+.app {
+  color: var(--font);
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--primary);
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.text-ellipsis {
+  text-overflow: ellipsis;
+}

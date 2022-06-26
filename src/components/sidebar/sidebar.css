@@ -1,0 +1,38 @@
+aside {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background-color: var(--white);
+}
+
+.sidebar .list-item {
+  margin: 6px 0;
+  padding: 8px;
+  border-radius: var(--rounded);
+  cursor: pointer;
+}
+
+.sidebar .list-item.active {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+.list-item a {
+  width: 100%;
+}
+
+.translate-x-0 {
+  transform: translateX(0px);
+}
+
+@media screen and (max-width: 768px) {
+  aside {
+    position: fixed;
+    width: 13rem;
+    transform: translateX(-13rem);
+    z-index: 1;
+    box-shadow: var(--shadow);
+    transition: all 0.3s linear;
+  }
+}
