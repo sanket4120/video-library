@@ -3,10 +3,6 @@
   --font-color: #413f42;
 }
 
-* {
-  font-family: 'Nunito', sans-serif;
-}
-
 .app {
   color: var(--font);
   overflow-x: hidden;
@@ -30,4 +26,8 @@
 
 .text-ellipsis {
   text-overflow: ellipsis;
+}
+
+.minheight {
+  height: calc(100vh - 4rem);
 }

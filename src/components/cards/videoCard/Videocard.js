@@ -1,9 +1,17 @@
+import { Link } from 'react-router-dom';
 import './video-card.css';
 
 const Videocard = ({ video }) => {
   return (
     <div className='card border flex-grow-1 flex flex-column'>
-      <img src={video.thumbnail} alt='alt text' className='card-image cover' />
+      <Link to={`/video/${video._id}`}>
+        <img
+          src={video.thumbnail}
+          alt='alt text'
+          className='card-image cover'
+        />
+      </Link>
+
       <div className='card-body pt-3'>
         <div className='flex gap-1'>
           <div>
@@ -12,7 +20,9 @@ const Videocard = ({ video }) => {
             </figure>
           </div>
           <div>
-            <p className='fw-bold'>{video.title}</p>
+            <p className='fw-bold'>
+              <Link to={`/video/${video._id}`}>{video.title}</Link>
+            </p>
             <p>{video.creator}</p>
             <p>
               <span>{video.views} views</span>

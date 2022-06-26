@@ -1,5 +1,9 @@
 import { createContext, useReducer, useContext } from 'react';
-import { initialState, videoListReducer } from '../reducers/videoReducer';
+import {
+  initialState,
+  videoDetailsReducer,
+  videoListReducer,
+} from '../reducers/videoReducer';
 import { filterVideos } from '../utils/filter';
 
 const VideosContext = createContext(initialState);
@@ -7,7 +11,11 @@ const VideosContext = createContext(initialState);
 const VideosProvider = ({ children }) => {
   const [videoListState, setVideoList] = useReducer(
     videoListReducer,
-    initialState
+    initialState.videoList
+  );
+  const [videoDetailsState, setVideoDetails] = useReducer(
+    videoDetailsReducer,
+    initialState.video
   );
 
   const { videos, filters } = videoListState;
@@ -19,6 +27,8 @@ const VideosProvider = ({ children }) => {
         videoListState,
         setVideoList,
         filteredVideos,
+        videoDetailsState,
+        setVideoDetails,
       }}
     >
       {children}
