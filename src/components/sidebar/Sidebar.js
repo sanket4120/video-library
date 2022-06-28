@@ -1,25 +1,36 @@
+import { NavLink } from 'react-router-dom';
 import './sidebar.css';
 
 const Sidebar = ({ showSidenav }) => {
   return (
     <ul className='sidebar list-unstyled p-3'>
-      <li className='list-item active'>
-        <i className='fa-solid fa-house mr-2'></i> Home
+      <li>
+        <NavLink to='/' className='list-item'>
+          <i className='fa-solid fa-house mr-2'></i> Home
+        </NavLink>
       </li>
-      <li className='list-item'>
-        <i className='fa-regular fa-circle-play mr-2'></i>Playlist
+      <li>
+        <NavLink to='/playlist' className='list-item'>
+          <i className='fa-regular fa-circle-play mr-2'></i>Playlist
+        </NavLink>
       </li>
-      <li className='list-item'>
-        <i className='fa-regular fa-clock mr-2'></i>Watch Later
+      <li>
+        <NavLink to='/watchlater' className='list-item'>
+          <i className='fa-regular fa-clock mr-2'></i>Watch Later
+        </NavLink>
       </li>
-      <li className='list-item'>
-        <i className='fa-regular fa-thumbs-up mr-2'></i>Liked Videos
+      <li>
+        <NavLink to='/likedvideos' className='list-item'>
+          <i className='fa-regular fa-thumbs-up mr-2'></i>Liked Videos
+        </NavLink>
       </li>
-      <li className='list-item'>
-        <i className='fa-solid fa-clock-rotate-left mr-2'></i>History
+      <li>
+        <NavLink to='/history' className='list-item'>
+          <i className='fa-solid fa-clock-rotate-left mr-2'></i>History
+        </NavLink>
       </li>
     </ul>
   );
 };
 
-export default Sidebar;
+export { Sidebar };

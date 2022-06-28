@@ -4,14 +4,20 @@ import {
   VIDEO_LIST_FAIL,
   VIDEO_LIST_APPLY_FILTER,
   VIDEO_LIST_REMOVE_FILTER,
+  VIDEO_DETAILS_REQUEST,
+  VIDEO_DETAILS_SUCCESS,
+  VIDEO_DETAILS_FAIL,
 } from '../constants/videoConstants';
 
 const initialState = {
-  videos: [],
-  filters: {
-    searchQuery: '',
-    category: 'all',
+  videoList: {
+    videos: [],
+    filters: {
+      searchQuery: '',
+      category: 'all',
+    },
   },
+  video: {},
 };
 
 const videoListReducer = (state, action) => {
@@ -32,4 +38,18 @@ const videoListReducer = (state, action) => {
   }
 };
 
-export { initialState, videoListReducer };
+const videoDetailsReducer = (state, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case VIDEO_DETAILS_REQUEST:
+      return { loading: true };
+    case VIDEO_DETAILS_SUCCESS:
+      return { loading: false, video: payload };
+    case VIDEO_DETAILS_FAIL:
+      return { loading: false, error: payload };
+    default:
+      return state;
+  }
+};
+
+export { initialState, videoListReducer, videoDetailsReducer };
