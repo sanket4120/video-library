@@ -1,0 +1,7 @@
+.options ul li:hover {
+  cursor: pointer;
+}
+
+.options ul li:not(li:last-child) {
+  padding-bottom: 3px;
+}

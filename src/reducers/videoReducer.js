@@ -7,6 +7,7 @@ import {
   VIDEO_DETAILS_REQUEST,
   VIDEO_DETAILS_SUCCESS,
   VIDEO_DETAILS_FAIL,
+  REMOVE_VIDEO_DETAILS,
 } from '../constants/videoConstants';
 
 const initialState = {
@@ -18,6 +19,7 @@ const initialState = {
     },
   },
   video: {},
+  likes: {},
 };
 
 const videoListReducer = (state, action) => {
@@ -47,6 +49,8 @@ const videoDetailsReducer = (state, action) => {
       return { loading: false, video: payload };
     case VIDEO_DETAILS_FAIL:
       return { loading: false, error: payload };
+    case REMOVE_VIDEO_DETAILS:
+      return {};
     default:
       return state;
   }
