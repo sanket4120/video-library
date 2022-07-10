@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
-import { Videocard } from '../../components/cards/videoCard/Videocard';
+import { Videocard } from '../../components/cards/Videocard';
 import { useVideos } from '../../context/videosContext';
 import { getAllVideos } from '../../actions/videoActions';
 import { CategoryChips } from '../../components/categoryChips/CategoryChips';
 import { useDocumentTitle } from '../../utils/useDocumentTitle';
 import { Loader } from '../../components/loader/Loader';
+import { PlaylistModal } from '../../components/playListModal/PlaylistModal';
+import { usePlaylistModal } from '../../context/playlistModalContext';
 
 const Homepage = () => {
   useDocumentTitle('TechFlix');
@@ -13,6 +15,9 @@ const Homepage = () => {
     filteredVideos,
     setVideoList,
   } = useVideos();
+  const {
+    playlistModalState: { isOpen },
+  } = usePlaylistModal();
 
   useEffect(() => {
     getAllVideos(setVideoList);
@@ -23,6 +28,8 @@ const Homepage = () => {
       {loading && <Loader />}
       {!loading && filteredVideos && (
         <>
+          {isOpen && <PlaylistModal />}
+
           <CategoryChips />
           {filteredVideos.length > 0 ? (
             <section className='grid gap-2 justify-items-center '>

@@ -31,3 +31,7 @@
 .minheight {
   height: calc(100vh - 4rem);
 }
+
+.hide-overflow-y {
+  overflow-y: hidden;
+}

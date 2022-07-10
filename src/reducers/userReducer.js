@@ -36,6 +36,21 @@ import {
   CLEAR_HISTORY_REQUEST,
   CLEAR_HISTORY_SUCCESS,
   CLEAR_HISTORY_FAIL,
+  GET_PLAYLISTS_REQUEST,
+  GET_PLAYLISTS_SUCCESS,
+  GET_PLAYLISTS_FAIL,
+  CREATE_PLAYLIST_REQUEST,
+  CREATE_PLAYLIST_SUCCESS,
+  CREATE_PLAYLIST_FAIL,
+  DELETE_PLAYLIST_REQUEST,
+  DELETE_PLAYLIST_SUCCESS,
+  DELETE_PLAYLIST_FAIL,
+  ADD_TO_PLAYLIST_REQUEST,
+  ADD_TO_PLAYLIST_SUCCESS,
+  ADD_TO_PLAYLIST_FAIL,
+  REMOVE_FROM_PLAYLIST_REQUEST,
+  REMOVE_FROM_PLAYLIST_SUCCESS,
+  REMOVE_FROM_PLAYLIST_FAIL,
 } from '../constants/userConstants';
 
 const initialState = {};
@@ -125,10 +140,48 @@ const historyReducer = (state, action) => {
   }
 };
 
+const playlistReducer = (state, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case GET_PLAYLISTS_REQUEST:
+    case CREATE_PLAYLIST_REQUEST:
+    case DELETE_PLAYLIST_REQUEST:
+    case ADD_TO_PLAYLIST_REQUEST:
+    case REMOVE_FROM_PLAYLIST_REQUEST:
+      return { ...state, loading: true, error: false };
+
+    case GET_PLAYLISTS_SUCCESS:
+    case CREATE_PLAYLIST_SUCCESS:
+    case DELETE_PLAYLIST_SUCCESS:
+      return { ...state, loading: false, playlists: payload };
+
+    case REMOVE_FROM_PLAYLIST_SUCCESS:
+    case ADD_TO_PLAYLIST_SUCCESS:
+      const playlists = state.playlists;
+      playlists.forEach((item) => {
+        if (item._id === payload._id) {
+          item.videos = payload.videos;
+        }
+      });
+      return { ...state, loading: false, playlists };
+
+    case GET_PLAYLISTS_FAIL:
+    case CREATE_PLAYLIST_FAIL:
+    case DELETE_PLAYLIST_FAIL:
+    case ADD_TO_PLAYLIST_FAIL:
+    case REMOVE_FROM_PLAYLIST_FAIL:
+      return { ...state, loading: false, error: payload };
+
+    default:
+      return state;
+  }
+};
+
 export {
   initialState,
   authReducer,
   likesReducer,
   watchLaterReducer,
   historyReducer,
+  playlistReducer,
 };

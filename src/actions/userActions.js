@@ -37,6 +37,21 @@ import {
   CLEAR_HISTORY_REQUEST,
   CLEAR_HISTORY_SUCCESS,
   CLEAR_HISTORY_FAIL,
+  GET_PLAYLISTS_REQUEST,
+  GET_PLAYLISTS_SUCCESS,
+  GET_PLAYLISTS_FAIL,
+  CREATE_PLAYLIST_REQUEST,
+  CREATE_PLAYLIST_SUCCESS,
+  CREATE_PLAYLIST_FAIL,
+  DELETE_PLAYLIST_REQUEST,
+  DELETE_PLAYLIST_SUCCESS,
+  DELETE_PLAYLIST_FAIL,
+  ADD_TO_PLAYLIST_REQUEST,
+  ADD_TO_PLAYLIST_SUCCESS,
+  ADD_TO_PLAYLIST_FAIL,
+  REMOVE_FROM_PLAYLIST_REQUEST,
+  REMOVE_FROM_PLAYLIST_SUCCESS,
+  REMOVE_FROM_PLAYLIST_FAIL,
 } from '../constants/userConstants';
 import { setMessage } from './messageActions';
 
@@ -242,13 +257,105 @@ const clearHistory = async (dispatch, setMessages) => {
     dispatch({ type: CLEAR_HISTORY_SUCCESS, payload: res.data.history });
     setMessage(setMessages, `History cleared`, 'success');
   } catch (e) {
-    console.log(e);
     const errors = e.response.data.errors;
     if (errors) {
       errors.map((error) => setMessage(setMessages, error, 'danger'));
     }
 
     dispatch({ type: CLEAR_HISTORY_FAIL, payload: 'Server Error' });
+  }
+};
+
+const getPlaylists = async (dispatch) => {
+  dispatch({ type: GET_PLAYLISTS_REQUEST });
+  try {
+    const res = await axios.get('/api/user/playlists');
+    dispatch({ type: GET_PLAYLISTS_SUCCESS, payload: res.data });
+  } catch (e) {
+    console.log(e);
+    dispatch({ type: GET_PLAYLISTS_FAIL, payload: 'Server Error' });
+  }
+};
+
+const createPlaylist = async (dispatch, setMessages, playlist) => {
+  dispatch({ type: CREATE_PLAYLIST_REQUEST });
+  try {
+    const res = await axios.post('/api/user/playlists', { playlist });
+    dispatch({
+      type: CREATE_PLAYLIST_SUCCESS,
+      payload: res.data.playlists,
+    });
+    setMessage(setMessages, 'Playlist created', 'success');
+  } catch (e) {
+    const errors = e.response.data.errors;
+    if (errors) {
+      errors.map((error) => setMessage(setMessages, error, 'danger'));
+    }
+
+    dispatch({ type: CREATE_PLAYLIST_FAIL, payload: errors });
+  }
+};
+
+const deletePlaylist = async (dispatch, setMessages, playlistId) => {
+  dispatch({ type: DELETE_PLAYLIST_REQUEST });
+  try {
+    const res = await axios.delete(`/api/user/playlists/${playlistId}`);
+    dispatch({
+      type: DELETE_PLAYLIST_SUCCESS,
+      payload: res.data.playlists,
+    });
+    setMessage(setMessages, `Playlist deleted`, 'success');
+  } catch (e) {
+    const errors = e.response.data.errors;
+    if (errors) {
+      errors.map((error) => setMessage(setMessages, error, 'danger'));
+    }
+
+    dispatch({ type: DELETE_PLAYLIST_FAIL, payload: errors });
+  }
+};
+
+const addToPlaylist = async (dispatch, setMessages, playlistId, video) => {
+  dispatch({ type: ADD_TO_PLAYLIST_REQUEST });
+  try {
+    const res = await axios.post(`/api/user/playlists/${playlistId}`, {
+      video,
+    });
+    dispatch({ type: ADD_TO_PLAYLIST_SUCCESS, payload: res.data.playlist });
+    setMessage(setMessages, `Added to playlist`, 'success');
+  } catch (e) {
+    const errors = e.response.data.errors;
+    if (errors) {
+      errors.map((error) => setMessage(setMessages, error, 'danger'));
+    }
+
+    dispatch({ type: ADD_TO_PLAYLIST_FAIL, payload: errors });
+  }
+};
+
+const removeFromPlaylist = async (
+  dispatch,
+  setMessages,
+  playlistId,
+  videoId
+) => {
+  dispatch({ type: REMOVE_FROM_PLAYLIST_REQUEST });
+  try {
+    const res = await axios.delete(
+      `/api/user/playlists/${playlistId}/${videoId}`
+    );
+    dispatch({
+      type: REMOVE_FROM_PLAYLIST_SUCCESS,
+      payload: res.data.playlist,
+    });
+    setMessage(setMessages, `Removed from playlist`, 'success');
+  } catch (e) {
+    const errors = e.response.data.errors;
+    if (errors) {
+      errors.map((error) => setMessage(setMessages, error, 'danger'));
+    }
+
+    dispatch({ type: REMOVE_FROM_PLAYLIST_FAIL, payload: errors });
   }
 };
 
@@ -266,4 +373,9 @@ export {
   addToHistory,
   removeFromHistory,
   clearHistory,
+  getPlaylists,
+  createPlaylist,
+  deletePlaylist,
+  addToPlaylist,
+  removeFromPlaylist,
 };
