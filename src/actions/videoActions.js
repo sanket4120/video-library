@@ -6,6 +6,7 @@ import {
   VIDEO_DETAILS_REQUEST,
   VIDEO_DETAILS_SUCCESS,
   VIDEO_DETAILS_FAIL,
+  REMOVE_VIDEO_DETAILS,
 } from '../constants/videoConstants';
 
 const getAllVideos = async (dispatch) => {
@@ -19,15 +20,19 @@ const getAllVideos = async (dispatch) => {
   }
 };
 
-export const getVideoDetails = async (dispatch, videoId) => {
+const getVideoDetails = async (dispatch, videoId) => {
   dispatch({ type: VIDEO_DETAILS_REQUEST });
   try {
     const res = await axios.get(`/api/video/${videoId}`);
     let video = res.data.video;
     dispatch({ type: VIDEO_DETAILS_SUCCESS, payload: video });
   } catch (e) {
-    dispatch({ type: VIDEO_DETAILS_FAIL, payload: 'e.message' });
+    dispatch({ type: VIDEO_DETAILS_FAIL, payload: 'Server Error' });
   }
 };
 
-export { getAllVideos };
+const removeVideoDetails = (dispatch) => {
+  dispatch({ type: REMOVE_VIDEO_DETAILS });
+};
+
+export { getAllVideos, getVideoDetails, removeVideoDetails };

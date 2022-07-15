@@ -11,11 +11,11 @@ const GlobalProvider = ({ children }) => {
   return (
     <GlobalContext.Provider value={initialilState}>
       <MessageProvider>
-        <UserProvider>
-          <CategoryProvider>
-            <VideosProvider>{children}</VideosProvider>
-          </CategoryProvider>
-        </UserProvider>
+        <VideosProvider>
+          <UserProvider>
+            <CategoryProvider>{children}</CategoryProvider>
+          </UserProvider>
+        </VideosProvider>
       </MessageProvider>
     </GlobalContext.Provider>
   );

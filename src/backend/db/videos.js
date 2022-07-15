@@ -90,9 +90,9 @@ export const videos = [
   },
   {
     _id: uuid(),
-    title: 'Surface Laptop Studio Impressions: Windows 11 With a Twist!',
-    description: `Microsofts Surface Laptop Studio continues to evolve the laptop form factor, taking on board the lessons of the long-running Surface Book range by adding its own unique twist to the screen. Thanks to Microsoft UK, I’ve spent some time with the Surface Laptop Studio to get a better idea of what it is capable of and who it is for.',
-    creator: 'Marques Brownlee`,
+    title: `Surface Laptop Studio Impressions: Windows 11 With a Twist!`,
+    description: `Microsofts Surface Laptop Studio continues to evolve the laptop form factor, taking on board the lessons of the long-running Surface Book range by adding its own unique twist to the screen. Thanks to Microsoft UK, I've spent some time with the Surface Laptop Studio to get a better idea of what it is capable of and who it is for.`,
+    creator: 'Marques Brownlee',
     logo: 'https://yt3.ggpht.com/lkH37D712tiyphnu0Id0D5MwwQ7IRuwgQLVD05iMXlDWO-kDHut3uI4MgIEAQ9StK0qOST7fiA=s48-c-k-c0x00ffffff-no-rj',
     thumbnail: 'https://i.ytimg.com/vi/vBnpGIZK9R0/hq720.jpg',
     views: '3,062,254',
