@@ -12,7 +12,6 @@ import {
   watchLaterReducer,
   historyReducer,
   playlistReducer,
-  playlistDetailsReducer,
 } from '../reducers/userReducer';
 import { setAuthToken } from '../utils/setAuthToken';
 
