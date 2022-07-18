@@ -3,6 +3,7 @@ import { VideosProvider } from './videosContext';
 import { CategoryProvider } from './categoryContext';
 import { MessageProvider } from './messageContext';
 import { UserProvider } from './userContext';
+import { PlaylistModalProvider } from './playlistModalContext';
 
 const initialilState = {};
 const GlobalContext = createContext(initialilState);
@@ -13,7 +14,9 @@ const GlobalProvider = ({ children }) => {
       <MessageProvider>
         <VideosProvider>
           <UserProvider>
-            <CategoryProvider>{children}</CategoryProvider>
+            <CategoryProvider>
+              <PlaylistModalProvider>{children}</PlaylistModalProvider>
+            </CategoryProvider>
           </UserProvider>
         </VideosProvider>
       </MessageProvider>

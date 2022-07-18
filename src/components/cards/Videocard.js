@@ -1,34 +1,30 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   addToWatchLater,
-  removeFromHistory,
-  removeFromLikedVideos,
   removeFromWatchLater,
-} from '../../../actions/userActions';
-import { useUser } from '../../../context/userContext';
-import { MoreOptions } from '../../moreOptions/MoreOptions';
-import { useMessage } from '../../../context/messageContext';
-import { isInTheList } from '../../../utils/videoUtils';
-import './video-card.css';
+} from '../../actions/userActions';
+import { useUser } from '../../context/userContext';
+import { MoreOptions } from '../moreOptions/MoreOptions';
+import { useMessage } from '../../context/messageContext';
+import { isInTheList } from '../../utils/videoUtils';
+import { usePlaylistModal } from '../../context/playlistModalContext';
+import { openPlaylistModal } from '../../actions/playlistModalActions';
+import './card.css';
 
 const Videocard = ({ video }) => {
   const {
-    likesState: { likedVideos },
     watchLaterState: { watchlater },
-    setLikes,
     setWatchLater,
     authState: { isAuthenticated },
-    setHistory,
   } = useUser();
   let isInWatchLater = false;
-  let isLiked = false;
   const navigate = useNavigate();
   const location = useLocation();
   const { setMessages } = useMessage();
+  const { setPlaylistModal } = usePlaylistModal();
 
   if (video) {
     isInWatchLater = isInTheList(watchlater, video._id);
-    isLiked = isInTheList(likedVideos, video._id);
   }
 
   const toggleWatchLater = () => {
@@ -41,47 +37,21 @@ const Videocard = ({ video }) => {
     }
   };
 
-  const toggleLike = () => {
+  const showPlaylistModal = () => {
     if (isAuthenticated) {
-      isLiked && removeFromLikedVideos(setLikes, setMessages, video);
+      openPlaylistModal(setPlaylistModal, video);
     } else {
       navigate('/login', { state: { from: location.pathname } });
     }
   };
 
-  const handleRemove = () => {
-    switch (location.pathname) {
-      case '/likedvideos':
-        toggleLike();
-        break;
-      case '/watchlater':
-        toggleWatchLater();
-        break;
-      case '/history':
-        removeFromHistory(setHistory, setMessages, video);
-        break;
-      default:
-        break;
-    }
-  };
-
   return (
-    <div className='card border flex-grow-1 flex flex-column'>
-      {location.pathname !== '/' && (
-        <button
-          className='btn btn-white icon-rounded card-badge-top-end'
-          onClick={handleRemove}
-          title='Remove'
-        >
-          <i className='fa-solid fa-xmark'></i>
-        </button>
-      )}
-
+    <div className='card video-card border flex-grow-1 flex flex-column'>
       <Link to={`/video/${video._id}`}>
         <img
           src={video.thumbnail}
           alt='alt text'
-          className='card-image cover'
+          className='card-image cover thumbnail'
         />
       </Link>
 
@@ -103,17 +73,17 @@ const Videocard = ({ video }) => {
               <span>{video.createdAt}</span>
             </p>
           </div>
-          {location.pathname === '/' && (
-            <MoreOptions>
-              <ul>
-                <li onClick={toggleWatchLater}>
-                  {isInWatchLater
-                    ? 'Remove from Watch Later'
-                    : 'Add to watch later'}
-                </li>
-              </ul>
-            </MoreOptions>
-          )}
+
+          <MoreOptions>
+            <ul>
+              <li onClick={toggleWatchLater}>
+                {isInWatchLater
+                  ? 'Remove from Watch Later'
+                  : 'Add to watch later'}
+              </li>
+              <li onClick={showPlaylistModal}>Add to playlist</li>
+            </ul>
+          </MoreOptions>
         </div>
       </div>
     </div>

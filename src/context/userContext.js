@@ -2,6 +2,7 @@ import { createContext, useContext, useReducer, useEffect } from 'react';
 import {
   getHistory,
   getLikedVideos,
+  getPlaylists,
   getWatchLater,
 } from '../actions/userActions';
 import {
@@ -10,6 +11,7 @@ import {
   likesReducer,
   watchLaterReducer,
   historyReducer,
+  playlistReducer,
 } from '../reducers/userReducer';
 import { setAuthToken } from '../utils/setAuthToken';
 
@@ -23,6 +25,10 @@ const UserProvider = ({ children }) => {
     initialState
   );
   const [historyState, setHistory] = useReducer(historyReducer, initialState);
+  const [playlistState, setPlaylist] = useReducer(
+    playlistReducer,
+    initialState
+  );
 
   useEffect(() => {
     if (authState.isAuthenticated) {
@@ -31,6 +37,7 @@ const UserProvider = ({ children }) => {
       getLikedVideos(setLikes);
       getWatchLater(setWatchLater);
       getHistory(setHistory);
+      getPlaylists(setPlaylist);
     } else {
       localStorage.removeItem('token');
     }
@@ -47,6 +54,8 @@ const UserProvider = ({ children }) => {
         setWatchLater,
         historyState,
         setHistory,
+        playlistState,
+        setPlaylist,
       }}
     >
       {children}

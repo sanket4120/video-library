@@ -1,13 +1,21 @@
 import { Link } from 'react-router-dom';
-import { Videocard } from '../../components/cards/videoCard/Videocard';
+import { removeFromLikedVideos } from '../../actions/userActions';
+import { PlaylistVideocard } from '../../components/cards/PlaylistVideocard';
+import { useMessage } from '../../context/messageContext';
 import { useUser } from '../../context/userContext';
 import { useDocumentTitle } from '../../utils/useDocumentTitle';
 
-const LikedVideos = () => {
+const LikedVideos = ({ video }) => {
   useDocumentTitle('LikedVideos | TechFlix');
   const {
     likesState: { likedVideos },
+    setLikes,
   } = useUser();
+  const { setMessages } = useMessage();
+
+  const handleRemove = (video) => {
+    removeFromLikedVideos(setLikes, setMessages, video);
+  };
 
   return (
     <>
@@ -20,7 +28,7 @@ const LikedVideos = () => {
                 className='col-12 col-xs-6 col-lg-4 flex flex-column'
                 key={video._id}
               >
-                <Videocard video={video} />
+                <PlaylistVideocard video={video} handleRemove={handleRemove} />
               </div>
             ))}
           </section>

@@ -17,7 +17,10 @@ import {
   removeFromWatchLater,
 } from '../../actions/userActions';
 import { useMessage } from '../../context/messageContext';
-import { isInTheList } from '../../utils/videoUtils';
+import { isInTheList, isPresentInPlaylists } from '../../utils/videoUtils';
+import { usePlaylistModal } from '../../context/playlistModalContext';
+import { PlaylistModal } from '../../components/playListModal/PlaylistModal';
+import { openPlaylistModal } from '../../actions/playlistModalActions';
 
 const VideoDetails = () => {
   useDocumentTitle('Video | TechFlix');
@@ -34,6 +37,7 @@ const VideoDetails = () => {
     authState: { isAuthenticated },
     historyState: { history },
     setHistory,
+    playlistState: { playlists },
   } = useUser();
   const { setMessages } = useMessage();
   const navigate = useNavigate();
@@ -41,6 +45,11 @@ const VideoDetails = () => {
   const isInTheHistory = isInTheList(history, videoId);
   let isLiked = false;
   let isInWatchLater = false;
+  let isInPlaylist = false;
+  const {
+    playlistModalState: { isOpen },
+    setPlaylistModal,
+  } = usePlaylistModal();
 
   useEffect(() => {
     getVideoDetails(setVideoDetails, videoId);
@@ -59,6 +68,7 @@ const VideoDetails = () => {
   if (video) {
     isLiked = isInTheList(likedVideos, video._id);
     isInWatchLater = isInTheList(watchlater, video._id);
+    isInPlaylist = isPresentInPlaylists(playlists, video._id);
   }
 
   const toggleLike = () => {
@@ -81,9 +91,18 @@ const VideoDetails = () => {
     }
   };
 
+  const showPlaylistModal = () => {
+    if (isAuthenticated) {
+      openPlaylistModal(setPlaylistModal, video);
+    } else {
+      navigate('/login', { state: { from: location.pathname } });
+    }
+  };
+
   return (
     <>
       {loading && <Loader />}
+      {isOpen && <PlaylistModal />}
       {!loading && video && (
         <section className='video-details'>
           <div className='video-container mb-3'>
@@ -124,8 +143,9 @@ const VideoDetails = () => {
                 <i className='fa-regular fa-clock mr-2'></i>{' '}
                 {isInWatchLater ? 'Remove from Watch Later' : 'Watch Later'}
               </li>
-              <li className='py-1 px-3'>
-                <i className='fa-regular fa-circle-play mr-2'></i>Save
+              <li className='py-1 px-3' onClick={showPlaylistModal}>
+                <i className='fa-regular fa-circle-play mr-2'></i>
+                {isInPlaylist ? 'Saved' : 'Save'}
               </li>
             </ul>
           </div>

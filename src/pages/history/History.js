@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { clearHistory } from '../../actions/userActions';
-import { Videocard } from '../../components/cards/videoCard/Videocard';
+import { clearHistory, removeFromHistory } from '../../actions/userActions';
+import { PlaylistVideocard } from '../../components/cards/PlaylistVideocard';
 import { useMessage } from '../../context/messageContext';
 import { useUser } from '../../context/userContext';
 import { useDocumentTitle } from '../../utils/useDocumentTitle';
@@ -12,6 +12,10 @@ const History = () => {
     setHistory,
   } = useUser();
   const { setMessages } = useMessage();
+
+  const handleRemove = (video) => {
+    removeFromHistory(setHistory, setMessages, video);
+  };
 
   return (
     <>
@@ -33,7 +37,7 @@ const History = () => {
                 className='col-12 col-xs-6 col-lg-4 flex flex-column'
                 key={video._id}
               >
-                <Videocard video={video} />
+                <PlaylistVideocard video={video} handleRemove={handleRemove} />
               </div>
             ))}
           </section>

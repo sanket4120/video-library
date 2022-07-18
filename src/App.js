@@ -15,6 +15,7 @@ import { History } from './pages/history/History';
 import { Account } from './pages/account/Account';
 import './App.css';
 import { AuthRequired } from './components/authRequired/AuthRequired';
+import { PlaylistDetails } from './pages/playlist/PlaylistDetails';
 
 function App() {
   const [showSidenav, setShowSidenav] = useState(false);
@@ -44,6 +45,10 @@ function App() {
               <Route path='/signup' element={<Signup />} />
               <Route path='/' element={<AuthRequired />}>
                 <Route path='/playlist' element={<Playlist />} />
+                <Route
+                  path='/playlist/:playlistId'
+                  element={<PlaylistDetails />}
+                />
                 <Route path='/watchlater' element={<WatchLater />} />
                 <Route path='/likedvideos' element={<LikedVideos />} />
                 <Route path='/history' element={<History />} />

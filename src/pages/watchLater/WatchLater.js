@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
-import { Videocard } from '../../components/cards/videoCard/Videocard';
+import { removeFromWatchLater } from '../../actions/userActions';
+import { PlaylistVideocard } from '../../components/cards/PlaylistVideocard';
+import { useMessage } from '../../context/messageContext';
 import { useUser } from '../../context/userContext';
 import { useDocumentTitle } from '../../utils/useDocumentTitle';
 
@@ -7,7 +9,13 @@ const WatchLater = () => {
   useDocumentTitle('WatchLater | TechFlix');
   const {
     watchLaterState: { watchlater },
+    setWatchLater,
   } = useUser();
+  const { setMessages } = useMessage();
+
+  const handleRemove = (video) => {
+    removeFromWatchLater(setWatchLater, setMessages, video);
+  };
 
   return (
     <>
@@ -20,7 +28,7 @@ const WatchLater = () => {
                 className='col-12 col-xs-6 col-lg-4 flex flex-column'
                 key={video._id}
               >
-                <Videocard video={video} />
+                <PlaylistVideocard video={video} handleRemove={handleRemove} />
               </div>
             ))}
           </section>
